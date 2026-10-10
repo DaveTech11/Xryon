@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { api } from "../api/client";
+import StudioTimeline from "../components/xyron/StudioTimeline";
 import {
   ArrowLeft, ArrowUp, Image as ImageIcon, Video, Sparkles, WandSparkles,
   Upload, Eraser, Layers, Check, ChevronDown, Download, RotateCcw,
@@ -174,6 +175,7 @@ export default function AIStudio() {
           {resultUrl && <a href={resultUrl} download className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-white/10 px-4 py-3 text-xs text-neutral-200 hover:bg-white/5"><Download size={14}/> Download result</a>}
           <p className="mt-4 text-[10px] leading-5 text-neutral-600">AI editing depends on the media provider connected to your Xyron backend. If no edited media URL is returned, this page will show the backend response rather than pretending the edit succeeded.</p>
         </aside>
+        <div className="xl:col-span-2"><StudioTimeline onSelectMedia={(clip) => { if (clip?.url && (clip.type === "image" || clip.type === "video")) { setFile(clip.file || null); setPreview(clip.url); setMode(clip.type); setResultUrl(""); } }} /></div>
       </div>}
 
       {view==="history" && <section><h2 className="text-lg font-semibold">Recent edits</h2><p className="mt-1 text-xs text-neutral-500">Generated results from this session.</p>{history.length ? <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{history.map(item=><button key={item.id} onClick={()=>{setResultUrl(item.url);setView("editor");setMode(item.type)}} className={`${glass} overflow-hidden p-3 text-left`}><img src={item.url} alt={item.name} className="h-40 w-full rounded-xl object-cover"/><p className="mt-3 text-sm">{item.name}</p><p className="mt-1 text-xs text-neutral-500">Open in editor</p></button>)}</div>:<div className={`${glass} mt-5 flex min-h-48 flex-col items-center justify-center text-center`}><Sparkles className="text-neutral-600"/><p className="mt-3 text-sm text-neutral-400">Your edits will appear here</p><button onClick={()=>setView("templates")} className="mt-3 text-xs text-rose-200">Explore templates →</button></div>}</section>}

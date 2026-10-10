@@ -542,3 +542,34 @@
   .ai-studio-root { min-height: -webkit-fill-available; }
   .ai-studio-root input, .ai-studio-root textarea, .ai-studio-root select { font-size: 16px; }
 }
+
+/* Xyron Studio timeline: touch-friendly and responsive on iOS/Android */
+.xyron-timeline { min-width: 0; max-width: 100%; }
+.xyron-timeline-scroll { width: 100%; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; }
+.xyron-timeline-inner { position: relative; padding-bottom: 8px; }
+.xyron-ruler, .xyron-track-row { display: flex; min-height: 48px; }
+.xyron-track-label { position: sticky; left: 0; z-index: 5; display: flex; flex: 0 0 92px; align-items: center; gap: 6px; padding: 0 8px; border-right: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.06); background: #101014; color: #a3a3a3; font-size: 10px; }
+.xyron-ruler-track, .xyron-track-lane { position: relative; flex: 0 0 auto; min-height: 48px; border-bottom: 1px solid rgba(255,255,255,.06); background-image: linear-gradient(to right, rgba(255,255,255,.055) 1px, transparent 1px); background-size: 80px 100%; }
+.xyron-ruler-track { height: 28px; min-height: 28px; cursor: crosshair; }
+.xyron-ruler-track span { position: absolute; top: 5px; transform: translateX(4px); color: #73737f; font: 10px ui-monospace, monospace; }
+.xyron-track-lane { height: 54px; min-height: 54px; }
+.xyron-clip { position: absolute; top: 7px; display: flex; height: 38px; min-width: 34px; align-items: center; gap: 5px; overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 7px; padding: 0 6px; color: white; text-align: left; font-size: 10px; white-space: nowrap; }
+.xyron-clip.video { background: #3f3f72; }
+.xyron-clip.image { background: #78415f; }
+.xyron-clip.audio { background: #236b57; }
+.xyron-clip.text { background: #855b27; }
+.xyron-clip.selected { border-color: #fda4af; box-shadow: 0 0 0 1px rgba(253,164,175,.35); }
+.xyron-clip img, .xyron-clip video { width: 28px; height: 26px; flex: 0 0 auto; border-radius: 4px; object-fit: cover; }
+.xyron-clip span { overflow: hidden; text-overflow: ellipsis; }
+.xyron-playhead { position: absolute; z-index: 4; top: 0; bottom: 0; width: 2px; padding: 0; background: rgba(251,113,133,.8); }
+.xyron-playhead-line { position: absolute; z-index: 3; top: 28px; bottom: 8px; width: 1px; pointer-events: none; background: #fda4af; box-shadow: 0 0 8px rgba(253,164,175,.35); }
+.xyron-timeline input[type="range"] { min-height: 24px; }
+@media (max-width: 640px) {
+  .ai-studio-root { padding-bottom: env(safe-area-inset-bottom); }
+  .ai-studio-header { padding-top: max(10px, env(safe-area-inset-top)); }
+  .ai-studio-main { padding-left: 12px; padding-right: 12px; }
+  .xyron-timeline .xyron-track-label { flex-basis: 82px; padding-left: 6px; padding-right: 5px; }
+  .xyron-playhead-line { left: calc(82px + var(--playhead-offset, 0px)); }
+  .xyron-timeline button, .ai-studio-root button { touch-action: manipulation; }
+  .xyron-timeline input, .xyron-timeline select, .xyron-timeline textarea { font-size: 16px; }
+}
