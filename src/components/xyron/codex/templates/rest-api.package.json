@@ -1,0 +1,7 @@
+{
+  "name": "my-rest-api",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": { "start": "node rest-api.js" },
+  "dependencies": { "express": "^4.19.2" }
+}

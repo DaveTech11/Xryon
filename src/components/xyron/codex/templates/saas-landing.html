@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Launchly - SaaS Landing Page</title>
+<style>
+  :root { --bg:#050505; --card:#101012; --line:rgba(255,255,255,.1); --dim:#a1a1a6; --accent:#ef4444; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--bg); color:#fff; font-family:system-ui,sans-serif; line-height:1.55; }
+  nav { display:flex; justify-content:space-between; align-items:center; padding:18px 24px; max-width:1000px; margin:0 auto; }
+  nav b { font-size:1.15rem; } nav a { color:var(--dim); text-decoration:none; margin-left:20px; font-size:.9rem; }
+  .hero { text-align:center; padding:90px 20px 60px; max-width:760px; margin:0 auto; }
+  .hero h1 { font-size:clamp(2.2rem,7vw,3.8rem); letter-spacing:-.03em; line-height:1.1; }
+  .hero h1 em { font-style:normal; color:var(--accent); }
+  .hero p { color:var(--dim); margin:18px auto 0; max-width:520px; }
+  .cta { display:inline-block; margin-top:28px; padding:14px 30px; border-radius:999px; background:var(--accent); color:#fff; font-weight:600; text-decoration:none; }
+  section { max-width:1000px; margin:0 auto; padding:50px 20px; }
+  section h2 { text-align:center; font-size:1.6rem; margin-bottom:28px; }
+  .cols { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:22px; padding:24px; }
+  .box h3 { margin-bottom:6px; } .box p { color:var(--dim); font-size:.93rem; }
+  .price { font-size:2rem; font-weight:800; margin:8px 0; } .price small { font-size:.9rem; color:var(--dim); font-weight:400; }
+  .box.pro { border-color:var(--accent); }
+  footer { text-align:center; color:var(--dim); padding:40px 20px; font-size:.85rem; }
+</style>
+</head>
+<body>
+<nav><b>Launchly</b><div><a href="#features">Features</a><a href="#pricing">Pricing</a></div></nav>
+<div class="hero">
+  <h1>Ship your product <em>faster</em>.</h1>
+  <p>One short sentence that explains what your product does and who it is for.</p>
+  <a class="cta" href="#pricing">Start free</a>
+</div>
+<section id="features">
+  <h2>Features</h2>
+  <div class="cols">
+    <div class="box"><h3>Fast</h3><p>Explain the first benefit in one or two lines.</p></div>
+    <div class="box"><h3>Simple</h3><p>Explain the second benefit in one or two lines.</p></div>
+    <div class="box"><h3>Secure</h3><p>Explain the third benefit in one or two lines.</p></div>
+  </div>
+</section>
+<section id="pricing">
+  <h2>Pricing</h2>
+  <div class="cols">
+    <div class="box"><h3>Free</h3><div class="price">$0<small>/mo</small></div><p>For trying things out.</p></div>
+    <div class="box pro"><h3>Pro</h3><div class="price">$12<small>/mo</small></div><p>For people who build every day.</p></div>
+  </div>
+</section>
+<footer>&copy; Launchly. Prices and text are placeholders.</footer>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz App</title>
+<style>
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:grid; place-items:center; background:#000; color:#fff; font-family:system-ui,sans-serif; padding:16px; }
+  .card { width:min(560px,100%); background:#0f0f10; border:1px solid rgba(255,255,255,.1); border-radius:28px; padding:26px; }
+  .meta { color:#999; font-size:.85rem; display:flex; justify-content:space-between; }
+  .bar { height:6px; background:#222; border-radius:99px; margin:10px 0 20px; overflow:hidden; } .bar i { display:block; height:100%; background:#ef4444; width:0; transition:.3s; }
+  h2 { font-size:1.3rem; margin:0 0 18px; }
+  .opt { display:block; width:100%; text-align:left; margin-bottom:10px; padding:14px 18px; border-radius:16px; border:1px solid rgba(255,255,255,.12); background:#17171a; color:#fff; font-size:1rem; cursor:pointer; }
+  .opt:hover:not(:disabled) { border-color:#ef4444; }
+  .opt.right { background:#12351f; border-color:#22c55e; } .opt.wrong { background:#3a1414; border-color:#ef4444; }
+  .next { margin-top:8px; padding:12px 26px; border:0; border-radius:99px; background:#ef4444; color:#fff; font-weight:600; cursor:pointer; }
+  .next:disabled { opacity:.35; cursor:not-allowed; }
+</style>
+</head>
+<body>
+<div class="card" id="app"></div>
+<script>
+  // Edit this list to make your own quiz. "answer" is the index of the correct option.
+  var QUESTIONS = [
+    { q: "Which language runs in the browser?", options: ["Python", "JavaScript", "C", "Java"], answer: 1 },
+    { q: "What does CSS control?", options: ["Data", "Logic", "Styling", "Servers"], answer: 2 },
+    { q: "Which tag makes a link?", options: ["<a>", "<p>", "<div>", "<img>"], answer: 0 },
+    { q: "2 + 2 * 3 = ?", options: ["12", "8", "10", "6"], answer: 1 }
+  ];
+  var i = 0, score = 0, locked = false;
+  var app = document.getElementById("app");
+  function render() {
+    if (i >= QUESTIONS.length) {
+      app.innerHTML = "<h2>Done!</h2><p>You scored " + score + " out of " + QUESTIONS.length + ".</p><button class='next' id='again'>Play again</button>";
+      document.getElementById("again").onclick = function () { i = 0; score = 0; render(); };
+      return;
+    }
+    var item = QUESTIONS[i]; locked = false;
+    app.innerHTML = "<div class='meta'><span>Question " + (i + 1) + " of " + QUESTIONS.length + "</span><span>Score " + score + "</span></div>" +
+      "<div class='bar'><i style='width:" + (i / QUESTIONS.length * 100) + "%'></i></div><h2></h2><div id='opts'></div><button class='next' id='next' disabled>Next</button>";
+    app.querySelector("h2").textContent = item.q;
+    item.options.forEach(function (text, idx) {
+      var b = document.createElement("button");
+      b.className = "opt"; b.textContent = text;
+      b.onclick = function () {
+        if (locked) return; locked = true;
+        var all = document.querySelectorAll(".opt");
+        all[item.answer].classList.add("right");
+        if (idx === item.answer) score++; else b.classList.add("wrong");
+        all.forEach(function (o) { o.disabled = true; });
+        document.getElementById("next").disabled = false;
+      };
+      document.getElementById("opts").appendChild(b);
+    });
+    document.getElementById("next").onclick = function () { i++; render(); };
+  }
+  render();
+</script>
+</body>
+</html>

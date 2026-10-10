@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memory Game</title>
+<style>
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:grid; place-items:center; background:#000; color:#fff; font-family:system-ui,sans-serif; }
+  .wrap { text-align:center; padding:16px; }
+  h1 span { color:#ef4444; } .info { color:#999; margin-bottom:14px; }
+  .board { display:grid; grid-template-columns:repeat(4,72px); gap:10px; justify-content:center; }
+  .tile { width:72px; height:72px; border-radius:18px; border:1px solid rgba(255,255,255,.12); background:#141416; font-size:2rem; cursor:pointer; color:transparent; transition:.2s; }
+  .tile.open { background:#2a1010; color:#fff; border-color:#ef4444; } .tile.matched { background:#12351f; color:#fff; border-color:#22c55e; cursor:default; }
+  button.reset { margin-top:18px; padding:12px 26px; border:0; border-radius:99px; background:#ef4444; color:#fff; font-weight:600; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Memory <span>Match</span></h1>
+  <div class="info">Moves: <b id="moves">0</b> <span id="msg"></span></div>
+  <div class="board" id="board"></div>
+  <button class="reset" id="reset">New game</button>
+</div>
+<script>
+  var SYMBOLS = ["🚀", "🎮", "🌟", "🔥", "🎧", "🍕", "🐱", "⚡"];
+  var board = document.getElementById("board"), first = null, busy = false, moves = 0, matched = 0;
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function start() {
+    board.innerHTML = ""; first = null; busy = false; moves = 0; matched = 0;
+    document.getElementById("moves").textContent = 0; document.getElementById("msg").textContent = "";
+    shuffle(SYMBOLS.concat(SYMBOLS)).forEach(function (s) {
+      var t = document.createElement("button"); t.className = "tile"; t.textContent = s; t.dataset.s = s;
+      t.onclick = function () { flip(t); }; board.appendChild(t);
+    });
+  }
+  function flip(t) {
+    if (busy || t.classList.contains("open") || t.classList.contains("matched")) return;
+    t.classList.add("open");
+    if (!first) { first = t; return; }
+    moves++; document.getElementById("moves").textContent = moves;
+    if (first.dataset.s === t.dataset.s) {
+      first.classList.add("matched"); t.classList.add("matched"); first = null; matched++;
+      if (matched === SYMBOLS.length) document.getElementById("msg").textContent = "- You won!";
+    } else {
+      busy = true; var a = first, b = t; first = null;
+      setTimeout(function () { a.classList.remove("open"); b.classList.remove("open"); busy = false; }, 700);
+    }
+  }
+  document.getElementById("reset").onclick = start;
+  start();
+</script>
+</body>
+</html>

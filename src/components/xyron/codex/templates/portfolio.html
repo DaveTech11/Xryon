@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Portfolio</title>
+<style>
+  :root { --bg:#000; --card:#0f0f10; --line:rgba(255,255,255,.1); --text:#f5f5f5; --dim:#9a9a9f; --accent:#ef4444; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--bg); color:var(--text); font-family:system-ui,sans-serif; line-height:1.6; }
+  .wrap { max-width:760px; margin:0 auto; padding:0 20px; }
+  header { padding:80px 0 40px; }
+  h1 { font-size:clamp(2rem,6vw,3.2rem); letter-spacing:-.03em; }
+  h1 span { color:var(--accent); }
+  p.lead { color:var(--dim); margin-top:14px; max-width:520px; }
+  .btn { display:inline-block; margin-top:24px; padding:12px 24px; border-radius:999px; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; }
+  h2 { font-size:.8rem; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); margin:48px 0 16px; }
+  .grid { display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:20px; transition:.2s; }
+  .card:hover { border-color:rgba(239,68,68,.5); transform:translateY(-2px); }
+  .card h3 { font-size:1.05rem; } .card p { color:var(--dim); font-size:.9rem; margin-top:6px; }
+  .tags { display:flex; flex-wrap:wrap; gap:8px; }
+  .tags span { border:1px solid var(--line); border-radius:999px; padding:6px 14px; font-size:.85rem; color:var(--dim); }
+  footer { padding:56px 0; color:var(--dim); font-size:.85rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Hi, I'm <span>Your Name</span>.</h1>
+    <p class="lead">I build things for the web. Replace this text with a short intro about you and what you like to make.</p>
+    <a class="btn" href="#contact">Get in touch</a>
+  </header>
+
+  <h2>Projects</h2>
+  <div class="grid">
+    <div class="card"><h3>Project One</h3><p>A short description of what you built and why.</p></div>
+    <div class="card"><h3>Project Two</h3><p>Mention the tools you used and what you learned.</p></div>
+    <div class="card"><h3>Project Three</h3><p>Link to the live site or the code when you have it.</p></div>
+  </div>
+
+  <h2>Skills</h2>
+  <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Python</span></div>
+
+  <h2 id="contact">Contact</h2>
+  <p class="lead">your.email@example.com</p>
+  <footer>&copy; <span id="year"></span> Your Name</footer>
+</div>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
