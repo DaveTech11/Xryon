@@ -1,0 +1,238 @@
+{
+  "users": [
+    {
+      "id": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e",
+      "email": "eze464761@gmail.com",
+      "role": "user",
+      "created_date": "2026-09-24T17:07:22.960Z",
+      "passwordHash": "f6076e8f54ad460fefec8e361267519a4ed3f472bf320d5bc281f24ac318734af6fca2c57d7ad832c4e50c4143f5fdf8e85f4033395a7db0b47a539de710a37f",
+      "passwordSalt": "72a2508c5347523a113caa8d739f35be"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "cb2b7a6b-9c06-4699-828a-10ca89de292a",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e",
+      "created_date": "2026-09-24T17:07:22.960Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "ffe4416c-8cc5-48cd-901c-809eaa72458c",
+      "created_date": "2026-09-24T17:09:09.928Z",
+      "updated_date": "2026-09-24T17:09:09.928Z",
+      "title": "Build a landing page",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "5cdba755-468c-424a-8a9d-d57440cbe68b",
+      "created_date": "2026-09-24T17:08:31.904Z",
+      "updated_date": "2026-09-24T17:08:31.904Z",
+      "title": "hi",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "47f655e2-82c8-46ab-b521-7684d2d19a3e",
+      "created_date": "2026-09-24T17:07:26.411Z",
+      "updated_date": "2026-09-24T17:07:26.411Z",
+      "title": "Explain this code",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    }
+  ],
+  "messages": [
+    {
+      "id": "15a4be74-cdf7-496a-8ce8-244cda1e4664",
+      "created_date": "2026-09-24T17:10:03.398Z",
+      "updated_date": "2026-09-24T17:10:03.398Z",
+      "conversation_id": "ffe4416c-8cc5-48cd-901c-809eaa72458c",
+      "role": "assistant",
+      "content": "No worries. Let me know when you've decided.",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "beaeceee-5581-42af-8aee-4d111a776381",
+      "created_date": "2026-09-24T17:09:59.571Z",
+      "updated_date": "2026-09-24T17:09:59.571Z",
+      "conversation_id": "ffe4416c-8cc5-48cd-901c-809eaa72458c",
+      "role": "user",
+      "content": "oh",
+      "file_urls": [],
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "ec5189cc-33b4-41a1-9fda-64f75bf58b62",
+      "created_date": "2026-09-24T17:09:54.691Z",
+      "updated_date": "2026-09-24T17:09:54.691Z",
+      "conversation_id": "ffe4416c-8cc5-48cd-901c-809eaa72458c",
+      "role": "assistant",
+      "content": "\"h\"? Not sure what you mean.\n\nPick one:\n- **Pricing** — 3-tier cards\n- **Hero image** — visual above the fold\n- **Contact form** — email capture\n- **All three**",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "8206d4e8-7a24-48f4-94e2-11efbdb6bd9f",
+      "created_date": "2026-09-24T17:09:52.146Z",
+      "updated_date": "2026-09-24T17:09:52.146Z",
+      "conversation_id": "ffe4416c-8cc5-48cd-901c-809eaa72458c",
+      "role": "user",
+      "content": "h",
+      "file_urls": [],
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "74e42145-250d-4487-b8e4-77b7adbc7ce5",
+      "created_date": "2026-09-24T17:09:48.513Z",
+      "updated_date": "2026-09-24T17:09:48.513Z",
+      "conversation_id": "ffe4416c-8cc5-48cd-901c-809eaa72458c",
+      "role": "assistant",
+      "content": "Which would you like — pricing section, hero image, or contact form? Or all three?",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "c5257c00-7230-42f6-9764-5b6612dd1316",
+      "created_date": "2026-09-24T17:09:45.796Z",
+      "updated_date": "2026-09-24T17:09:45.796Z",
+      "conversation_id": "ffe4416c-8cc5-48cd-901c-809eaa72458c",
+      "role": "user",
+      "content": "yh",
+      "file_urls": [],
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "3527cd38-be5d-4bfd-8bd0-78e541608fc6",
+      "created_date": "2026-09-24T17:09:14.817Z",
+      "updated_date": "2026-09-24T17:09:14.817Z",
+      "conversation_id": "ffe4416c-8cc5-48cd-901c-809eaa72458c",
+      "role": "assistant",
+      "content": "# Landing Page\n\nHere's a clean, responsive landing page you can customize:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>ProductName — Tagline Here</title>\n<style>\n  * { margin: 0; padding: 0; box-sizing: border-box; }\n  body {\n    font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n    line-height: 1.6;\n    color: #1a1a1a;\n  }\n  header {\n    position: sticky; top: 0; background: rgba(255,255,255,0.95);\n    backdrop-filter: blur(8px); border-bottom: 1px solid #eee;\n    padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;\n  }\n  .logo { font-weight: 700; font-size: 1.25rem; }\n  nav a { margin-left: 1.5rem; text-decoration: none; color: #555; font-size: 0.95rem; }\n  nav a:hover { color: #000; }\n\n  .hero {\n    text-align: center; padding: 6rem 2rem 4rem; max-width: 800px; margin: 0 auto;\n  }\n  .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; margin-bottom: 1rem; letter-spacing: -0.02em; }\n  .hero p { font-size: 1.15rem; color: #666; margin-bottom: 2rem; }\n  .cta {\n    display: inline-block; background: #000; color: #fff; padding: 0.85rem 2rem;\n    border-radius: 8px; text-decoration: none; font-weight: 500; transition: opacity 0.2s;\n  }\n  .cta:hover { opacity: 0.85; }\n\n  .features {\n    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n    gap: 2rem; max-width: 1000px; margin: 4rem auto; padding: 0 2rem;\n  }\n  .feature h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }\n  .feature p { color: #666; font-size: 0.95rem; }\n  .icon { font-size: 1.75rem; margin-bottom: 0.75rem; }\n\n  footer {\n    text-align: center; padding: 3rem 2rem; color: #999; font-size: 0.875rem;\n    border-top: 1px solid #eee; margin-top: 4rem;\n  }\n</style>\n</head>\n<body>\n\n<header>\n  <div class=\"logo\">ProductName</div>\n  <nav>\n    <a href=\"#features\">Features</a>\n    <a href=\"#pricing\">Pricing</a>\n    <a href=\"#contact\">Contact</a>\n  </nav>\n</header>\n\n<section class=\"hero\">\n  <h1>Build something people love.</h1>\n  <p>A concise tagline explaining the value your product delivers to customers in one clear sentence.</p>\n  <a href=\"#\" class=\"cta\">Get Started Free</a>\n</section>\n\n<section class=\"features\" id=\"features\">\n  <div class=\"feature\">\n    <div class=\"icon\">⚡</div>\n    <h3>Fast</h3>\n    <p>Blazing performance out of the box with zero configuration needed.</p>\n  </div>\n  <div class=\"feature\">\n    <div class=\"icon\">🔒</div>\n    <h3>Secure</h3>\n    <p>Enterprise-grade security baked into every layer by default.</p>\n  </div>\n  <div class=\"feature\">\n    <div class=\"icon\">🎯</div>\n    <h3>Simple</h3>\n    <p>A clean interface that lets you focus on what actually matters.</p>\n  </div>\n</section>\n\n<footer>\n  © 2025 ProductName. All rights reserved.\n</footer>\n\n</body>\n</html>\n```\n\n**To customize:**\n- Replace `ProductName`, headline, and tagline\n- Swap the CTA link and button text\n- Add sections (pricing, testimonials, FAQ) between features and footer\n- Adjust the black/white palette to your brand colors\n\nWant me to add a pricing section, hero image, or contact form?",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "5eedbb00-7e9e-4e3d-b6b4-276556718b55",
+      "created_date": "2026-09-24T17:09:09.956Z",
+      "updated_date": "2026-09-24T17:09:09.956Z",
+      "conversation_id": "ffe4416c-8cc5-48cd-901c-809eaa72458c",
+      "role": "user",
+      "content": "Build a landing page",
+      "file_urls": [],
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "d0acd1be-7096-462a-ae0e-66e4dc7efa5c",
+      "created_date": "2026-09-24T17:08:34.604Z",
+      "updated_date": "2026-09-24T17:08:34.604Z",
+      "conversation_id": "5cdba755-468c-424a-8a9d-d57440cbe68b",
+      "role": "assistant",
+      "content": "Hi! What can I help you with?",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "4927061f-f534-48e2-8c89-10532aa59b55",
+      "created_date": "2026-09-24T17:08:31.930Z",
+      "updated_date": "2026-09-24T17:08:31.930Z",
+      "conversation_id": "5cdba755-468c-424a-8a9d-d57440cbe68b",
+      "role": "user",
+      "content": "hi",
+      "file_urls": [],
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "e8338f09-a224-4acb-8979-68e3febc21a4",
+      "created_date": "2026-09-24T17:08:20.255Z",
+      "updated_date": "2026-09-24T17:08:20.255Z",
+      "conversation_id": "47f655e2-82c8-46ab-b521-7684d2d19a3e",
+      "role": "assistant",
+      "content": "I'm Claude, an AI assistant made by Anthropic. What can I help you with?",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "53fcb05a-262d-4a93-a814-b783cce86d36",
+      "created_date": "2026-09-24T17:08:16.751Z",
+      "updated_date": "2026-09-24T17:08:16.751Z",
+      "conversation_id": "47f655e2-82c8-46ab-b521-7684d2d19a3e",
+      "role": "user",
+      "content": "hi wat ur name?",
+      "file_urls": [],
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "ab65a1d6-2156-4f8d-8050-3af58fb4c9f8",
+      "created_date": "2026-09-24T17:08:02.256Z",
+      "updated_date": "2026-09-24T17:08:02.256Z",
+      "conversation_id": "47f655e2-82c8-46ab-b521-7684d2d19a3e",
+      "role": "assistant",
+      "content": "I don't have reliable information on a specific public figure known as \"Dave Tech.\" It could refer to:\n\n- A **YouTuber/tech reviewer** (many use similar names)\n- A **podcaster or blogger** in the tech space\n- A **local/regional tech personality**\n- A **company or brand name**\n\nIf you share a link, channel, or context (where you heard the name), I can give a more accurate answer.",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "0db83944-3f0a-4a24-b981-02c26fdc109d",
+      "created_date": "2026-09-24T17:07:59.481Z",
+      "updated_date": "2026-09-24T17:07:59.481Z",
+      "conversation_id": "47f655e2-82c8-46ab-b521-7684d2d19a3e",
+      "role": "user",
+      "content": "who is dave tech",
+      "file_urls": [],
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "b39c8c86-1c22-4393-ae43-fdde888f8573",
+      "created_date": "2026-09-24T17:07:46.366Z",
+      "updated_date": "2026-09-24T17:07:46.366Z",
+      "conversation_id": "47f655e2-82c8-46ab-b521-7684d2d19a3e",
+      "role": "assistant",
+      "content": "Hey! What can I help you with?",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "8e7c3224-0352-4ac9-a63f-ed221e081052",
+      "created_date": "2026-09-24T17:07:44.374Z",
+      "updated_date": "2026-09-24T17:07:44.374Z",
+      "conversation_id": "47f655e2-82c8-46ab-b521-7684d2d19a3e",
+      "role": "user",
+      "content": "hey",
+      "file_urls": [],
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "be2a50fa-6413-4454-adee-86ef8a2898b0",
+      "created_date": "2026-09-24T17:07:28.995Z",
+      "updated_date": "2026-09-24T17:07:28.995Z",
+      "conversation_id": "47f655e2-82c8-46ab-b521-7684d2d19a3e",
+      "role": "assistant",
+      "content": "Please share the code you'd like explained.",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    },
+    {
+      "id": "9fbed3da-6fd6-4599-9e6f-d6a50f46ffc2",
+      "created_date": "2026-09-24T17:07:26.421Z",
+      "updated_date": "2026-09-24T17:07:26.421Z",
+      "conversation_id": "47f655e2-82c8-46ab-b521-7684d2d19a3e",
+      "role": "user",
+      "content": "Explain this code",
+      "file_urls": [],
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e"
+    }
+  ],
+  "codeFiles": [],
+  "subscriptions": [],
+  "feedback": [],
+  "tools": [],
+  "workflows": [],
+  "memories": [],
+  "activity": [],
+  "passwordResets": [],
+  "files": [],
+  "usage": [
+    {
+      "key": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e:ai:2026-09-24",
+      "userId": "ccb02519-56fc-4365-b1d5-b0ef3ca4fa3e",
+      "kind": "ai",
+      "count": 9
+    }
+  ],
+  "apiKeys": [],
+  "fileTokens": [],
+  "emailCodes": [],
+  "signupTokens": [],
+  "broadcasts": [],
+  "broadcastAcks": []
+}
