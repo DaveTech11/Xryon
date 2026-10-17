@@ -1,0 +1,7 @@
+{
+  "name": "my-telegram-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": { "start": "node telegram-bot.js" },
+  "engines": { "node": ">=18" }
+}
