@@ -1,0 +1,25 @@
+.env
+node_modules
+dist
+*.log
+
+.env
+.env.*
+!.env.example
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+build/
