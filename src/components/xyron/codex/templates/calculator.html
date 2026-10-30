@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculator</title>
+<style>
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:grid; place-items:center; background:#000; font-family:system-ui,sans-serif; }
+  .calc { width:min(340px,92vw); background:#0f0f10; border:1px solid rgba(255,255,255,.1); border-radius:28px; padding:18px; }
+  #screen { background:#000; border-radius:18px; padding:18px; text-align:right; color:#fff; font-size:2.2rem; min-height:76px; overflow:hidden; word-break:break-all; }
+  #hist { color:#777; font-size:.85rem; min-height:1.2em; }
+  .keys { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:14px; }
+  button { height:56px; border:0; border-radius:999px; background:#1c1c1f; color:#fff; font-size:1.2rem; cursor:pointer; }
+  button:hover { background:#2a2a2e; } button.op { background:#3b1212; color:#fca5a5; } button.eq { background:#ef4444; }
+  button.wide { grid-column:span 2; }
+</style>
+</head>
+<body>
+<div class="calc">
+  <div id="screen"><div id="hist"></div><div id="out">0</div></div>
+  <div class="keys" id="keys"></div>
+</div>
+<script>
+  var layout = ["C","±","%","÷","7","8","9","×","4","5","6","−","1","2","3","+","0",".","⌫","="];
+  var cur = "0", prev = null, op = null, fresh = false;
+  var out = document.getElementById("out"), hist = document.getElementById("hist");
+  function show() { out.textContent = cur; }
+  function compute(a, b, o) {
+    a = parseFloat(a); b = parseFloat(b);
+    var r = o === "+" ? a + b : o === "−" ? a - b : o === "×" ? a * b : o === "÷" ? (b === 0 ? NaN : a / b) : b;
+    return isNaN(r) ? "Error" : String(Math.round(r * 1e10) / 1e10);
+  }
+  function press(k) {
+    if (cur === "Error" && k !== "C") return;
+    if (/\d/.test(k)) { cur = (cur === "0" || fresh) ? k : cur + k; fresh = false; }
+    else if (k === ".") { if (fresh) { cur = "0"; fresh = false; } if (cur.indexOf(".") < 0) cur += "."; }
+    else if (k === "C") { cur = "0"; prev = null; op = null; hist.textContent = ""; }
+    else if (k === "⌫") { cur = cur.length > 1 ? cur.slice(0, -1) : "0"; }
+    else if (k === "±") { if (cur !== "0") cur = cur[0] === "-" ? cur.slice(1) : "-" + cur; }
+    else if (k === "%") { cur = String(parseFloat(cur) / 100); }
+    else if (k === "=") { if (op !== null) { hist.textContent = prev + " " + op + " " + cur; cur = compute(prev, cur, op); op = null; prev = null; fresh = true; } }
+    else { if (op !== null && !fresh) { cur = compute(prev, cur, op); } prev = cur; op = k; fresh = true; hist.textContent = prev + " " + op; }
+    show();
+  }
+  layout.forEach(function (k) {
+    var b = document.createElement("button");
+    b.textContent = k;
+    if ("÷×−+".indexOf(k) >= 0) b.className = "op";
+    if (k === "=") b.className = "eq";
+    b.onclick = function () { press(k); };
+    document.getElementById("keys").appendChild(b);
+  });
+  document.addEventListener("keydown", function (e) {
+    var map = { "*": "×", "/": "÷", "-": "−", "Enter": "=", "Backspace": "⌫", "Escape": "C" };
+    var k = map[e.key] || e.key;
+    if (layout.indexOf(k) >= 0) press(k);
+  });
+</script>
+</body>
+</html>

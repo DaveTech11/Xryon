@@ -1,0 +1,37 @@
+FREE DATABASE + TELEGRAM BACKUPS
+================================
+
+1) MOVE TO A FREE DATABASE (Neon)
+   - Make a free project at neon.tech (no card needed) and copy its connection string.
+   - On Render -> your web service -> Environment, set DATABASE_URL to that string.
+   - Deploy. Xyron creates its tables itself. Neon sleeps when idle and wakes on the next
+     request, so the first request after a quiet spell can take a second or two.
+   - If you still have SUPABASE_DB_URL set, it keeps working as a live mirror.
+
+2) TELEGRAM BACKUP BOT
+   - In Telegram open @BotFather -> /newbot -> copy the token.
+   - Open your new bot and press Start (send it any message).
+   - Get your chat id: open https://api.telegram.org/bot<TOKEN>/getUpdates in a browser and
+     copy the number at  "chat":{"id": ...}
+   - On Render set:
+        TELEGRAM_BACKUP_BOT_TOKEN = <token>
+        TELEGRAM_BACKUP_CHAT_ID   = <chat id>
+        BACKUP_EVERY_HOURS        = 24      (optional; 0 = manual only)
+   Keep the chat PRIVATE: the backup contains user emails and password hashes.
+
+3) USING IT (admin account only)
+   POST /api/admin/backup/now      send a backup right now
+   GET  /api/admin/backup/status   last backup time / error
+   POST /api/admin/backup/restore  body {"confirm":"RESTORE"} replaces current data with the pinned backup
+   Backups also run 2 minutes after boot and then every BACKUP_EVERY_HOURS, and are skipped
+   when nothing changed.
+
+4) AUTOMATIC RESTORE
+   If the database is empty on boot (new Neon database, expired Render database) and there is no
+   local data file, the server downloads the newest pinned backup and restores it by itself.
+
+NOTES
+   - Login sessions and one-time tokens are not in the backup, so people sign in again after a restore.
+   - Files stored in Cloudflare R2 are not in the backup (R2 keeps them). Files stored in Postgres are not either.
+   - Bots can download files up to 20 MB, so automatic restore works for backups up to 20 MB
+     (gzipped, that is a lot of chats). Larger ones can still be sent (up to 49 MB) and restored by hand.

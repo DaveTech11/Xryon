@@ -1,0 +1,47 @@
+VOICE (Xyron Voice / Vortyx Pulse) in Xyron
+=========================================
+What it does: the mic button in the chat box opens Voice. The person taps "Start Speaking", talks, and Xyron answers out loud
+and writes the conversation on the screen. The screen is plain black and white and fills the whole screen (wide on a laptop).
+
+How it works
+  1) The browser listens (built-in speech recognition) and turns speech into text. Nothing is uploaded as audio.
+  2) The text goes to the server route  POST /api/functions/voiceConverse  (server.mjs, search for "voiceConverse").
+  3) The server asks the Vortyx Pulse voice API  <base>/voice/converse  with your voice key, and gets back the reply text + audio.
+  4) The page plays the audio. If no audio comes back it reads the reply with the browser voice instead.
+
+FIX: "Voice isn't set up yet"  (the screen now says: "Voice is not connected yet. The site owner needs to add the voice key.")
+  Cause: the server has no voice key, so voiceConverse answers 503 "voice_not_configured".
+  This is NOT a bug in the page - the key just was never added to the server.
+
+Install on the server that runs `node server.mjs` (one time)
+  1) Get a Vortyx Pulse VOICE key. It starts with  vp_voice_  . Voice keys are separate from text keys - a normal text key will NOT work.
+  2) Add it as an environment variable:
+       Render:  dashboard -> your Xryon service -> Environment -> Add Environment Variable
+                  VORTYX_VOICE_KEY = vp_voice_xxxxxxxxxxxxxxxx       (paste with no quotes and no spaces)
+       Local:   put the same line in .env, then restart `npm run server` (and `npm run dev`).
+  3) Save. Render redeploys by itself. Open Voice -> Start Speaking -> say something.
+  4) Check: the first reply should come back with a voice. If it still says "not connected", the variable name is wrong
+     (it must be exactly VORTYX_VOICE_KEY) or the service was not redeployed.
+
+Optional env vars
+  VORTYX_VOICE_URL         the voice API base (default https://vortyx-pulse.myng.net/v1; it falls back to
+                           https://vortyx-pulse-backend.onrender.com/v1 when the first one is down or returns 404/5xx)
+  VORTYX_VOICE_TIMEOUT_MS  how long to wait for one voice reply (default 45000)
+
+What the person sees when something is wrong
+  "Voice is not connected yet..."   -> VORTYX_VOICE_KEY is missing on the server (above).
+  "Limit reached - Exit voice mode and try again later."
+                                    -> the voice key's rate limit or monthly quota is used up (HTTP 429, 402, or 403 mentioning quota/limit).
+                                       Wait for the quota to reset, or upgrade the Vortyx voice plan / use a new key.
+  "Sorry, something went wrong. Tap the mic to try again."
+                                    -> the voice API was down or replied with an error. Look for "voiceConverse failed" in the server log.
+  "Microphone access is blocked..." -> allow the mic in the browser's site settings. The site must be on https:// (localhost is fine).
+  "Voice input isn't supported in this browser" -> use Chrome, Edge or Safari (Firefox has no speech recognition).
+
+Settings inside Voice (gear / hexagon button): language, "send when I stop talking", "read replies aloud". They are saved in the browser.
+
+Files
+  src/components/xyron/VoiceChat.jsx   the screen (home + talking)
+  src/index.css                        search for "Xyron Voice" (black and white, full screen; dark by default, white when Dark mode is off)
+  src/lib/voice.js, useVoiceListener.js   speech recognition, browser voice fallback, saved settings
+  server.mjs  /api/functions/voiceConverse   the server side described above

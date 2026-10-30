@@ -1,0 +1,26 @@
+TELEGRAM FILE STORE (free storage for uploads, generated images and songs)
+==========================================================================
+Files are saved as documents in a PRIVATE Telegram channel and read back when needed. They take no room in Postgres/R2.
+
+1) Make the channel
+   - Telegram -> New Channel -> Private. Add your bot as ADMIN (allow: post messages, delete messages).
+   - Channel id: forward any channel post to @JsonDumpBot or @getidsbot, or open https://api.telegram.org/bot<TOKEN>/getUpdates
+     after posting in the channel. It looks like -1001234567890.
+   - Use a NEW bot/channel for files (do not reuse the backup chat, which is pinned and meant for backups only).
+
+2) Render environment variables
+     TELEGRAM_FILES_BOT_TOKEN = <bot token>
+     TELEGRAM_FILES_CHAT_ID   = -100xxxxxxxxxx
+     TELEGRAM_FILES_KEY       = <a long random secret>   (files are encrypted before upload; keep this value forever)
+   Optional: TELEGRAM_FILES_CACHE_MB (default 40) = recent files kept in memory so they open fast.
+   Check it: logged in as admin, open  GET /api/admin/tgfiles/status
+
+3) What to know
+   - New files go to Telegram; old files already in R2/Postgres keep working and are cleaned by the normal retention rules.
+   - If Telegram is down or a file is over 20 MB, that file is saved to R2/Postgres instead, so nothing fails.
+   - Bots can only download 20 MB, so bigger files never go to Telegram.
+   - The list of which Telegram message holds which file lives in the app state, which the Telegram backup contains.
+     Restoring an OLD backup forgets files saved after it (they stay in the channel but can no longer be found).
+   - Telegram can rate-limit bursts (about 20 posts/minute to one channel); the server waits and retries.
+   - If you lose TELEGRAM_FILES_KEY, files saved with it cannot be opened.
+   - Telegram may refuse to delete old messages; expired files are forgotten by Xyron either way.

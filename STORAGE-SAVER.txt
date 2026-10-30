@@ -1,0 +1,41 @@
+FREEING AND SAVING SPACE
+========================
+
+WHAT WAS FILLING UP
+  Xyron kept every upload, generated image and generated song forever, and images were stored at full
+  size. Deleting an account also left its files behind.
+
+WHAT CHANGED
+  1. Pictures are shrunk before they are stored (WebP, max 2048 px; generated images max 4096 px).
+     Needs the "sharp" package (added to package.json). Without it nothing breaks, files just stay full size.
+  2. Re-uploading the exact same file reuses the old copy instead of storing another one.
+  3. Old files are deleted automatically (boot + every 6 hours). Defaults, in days:
+        FILE_RETENTION_DAYS   = 7    (files and photos people upload)
+        IMAGE_RETENTION_DAYS  = 30   (images the AI generated)
+        MUSIC_RETENTION_DAYS  = 14   (songs the AI generated)
+     Set a variable to 0 to keep that kind forever. Admin accounts are never cleaned.
+     Deleting removes the bytes from Cloudflare R2 and from Postgres. Old chats then show a missing image/file.
+  4. Deleting an account now deletes its files too.
+
+ADMIN ENDPOINTS (sign in as admin, then call from the browser console or a REST tool)
+  GET  /api/admin/storage
+       Where the space is: by kind, top users, biggest files, size of each database, and how many
+       files would expire right now.
+  POST /api/admin/storage/cleanup
+       {"olderThanDays":1,"kind":"all"}                      dry run: shows what would be deleted
+       {"olderThanDays":1,"kind":"all","confirm":true}       deletes it
+       add "vacuum":true to also shrink the Postgres file (see below)
+       kind can be "uploads", "images", "music" or "all".
+
+POSTGRES DOES NOT SHRINK BY ITSELF
+  After deleting, Postgres reuses the room but the size shown by Neon/Render stays the same until a
+  VACUUM FULL. Use "vacuum":true in the cleanup call. It briefly blocks file reads while it runs, and
+  needs spare room roughly the size of what is left in the files table.
+
+BEST FIX FOR THE BIGGEST SAVING
+  Set the four R2_* variables (see R2-SETUP.txt). New files then go to Cloudflare R2 (10 GB free)
+  and stay out of the database completely.
+
+BUILD NOTE
+  package.json gained "sharp". If your Render build command is "npm ci", run "npm install" once on your
+  computer and commit the updated package-lock.json. With "npm install" nothing else is needed.

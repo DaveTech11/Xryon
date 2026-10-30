@@ -1,0 +1,35 @@
+ANTI-SCRAPING (antiscrape.mjs)
+==============================
+Nothing can make a public site 100% unscrapable (a real browser can always copy what it shows). This makes automated
+scraping slow, blocked and noisy.
+
+What it does
+ 1. Refuses known scraper tools, headless browsers and AI-training crawlers (by User-Agent).
+ 2. /api/* only answers browser-looking requests (User-Agent + Accept-Language/Sec-Fetch-*), and refuses other websites
+    (cross-site) calling the API or hotlinking files, images and audio.
+ 3. Trap URLs (/directory-all, /.env, /wp-login.php, /.git ...) ban whoever opens them for 24h. A hidden link in
+    index.html leads bots there; real people never see it. robots.txt tells polite bots to stay away.
+ 4. 25 rate-limit hits in 10 minutes = 1 hour ban.
+ 5. robots.txt blocks GPTBot, ClaudeBot, CCBot, Google-Extended, Bytespider, etc. + X-Robots-Tag: noai, noimageai, noarchive.
+ 6. Headers: X-Frame-Options, Cross-Origin-Resource-Policy (API), nosniff, Referrer-Policy, no-store on API.
+
+Always allowed: /api/health, payment webhooks, /api/files/<id>?token=... (outside AI image readers), /p/* published sites.
+
+Render environment variables (all optional)
+   ANTISCRAPE=off                 emergency off switch
+   ANTISCRAPE_ALLOW_UA=uptimerobot   User-Agent fragments to let through (monitors etc.)
+   ANTISCRAPE_ALLOW_IPS=1.2.3.4      never blocked / banned
+   ANTISCRAPE_NOINDEX=1           also hide the site from search engines (default keeps Google search working)
+   TRUST_PROXY_HOPS=1             IMPORTANT, see below
+   TRUST_CLOUDFLARE=1             if you put Cloudflare in front
+
+IP spoofing check (do this once after deploying)
+   Rate limits and bans use the client IP. On Render, X-Forwarded-For can contain values typed by the client, so a
+   scraper could dodge limits by faking it. Logged in as admin, open  GET /api/admin/antiscrape  and compare
+   "yourIp", "forwardedFor" and "socketIp". Then run from a terminal:
+       curl -H "X-Forwarded-For: 1.2.3.4" <your site>/api/admin/antiscrape   (with your session cookie)
+   If yourIp shows 1.2.3.4, set TRUST_PROXY_HOPS=1 (use 2 if Cloudflare is also in front) and check again until
+   yourIp is your real IP and ignores the fake header.
+   Ban list / stats: same endpoint.  Unban: POST /api/admin/antiscrape/unban {"ip":"..."}
+
+Tests: node --test tests/antiscrape.test.mjs

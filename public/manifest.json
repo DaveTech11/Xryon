@@ -1,0 +1,29 @@
+{
+  "name": "Xyron AI",
+  "short_name": "Xyron",
+  "description": "Xyron AI \u2014 your assistant and Codex app-building workspace",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
+  "scope": "/",
+  "orientation": "portrait",
+  "categories": [
+    "productivity",
+    "developer",
+    "utilities"
+  ]
+}

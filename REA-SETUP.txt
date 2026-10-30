@@ -1,0 +1,75 @@
+REA (Reverse Engineer Anything) in Xyron
+=========================================
+What it does: attach a file to the chat and ask "how does the search work in this?", "what does this exe do?", "reverse engineer this".
+The server looks at the file's first bytes, runs REA's STATIC analysis (the file is never executed), deletes its temp copy, and gives the
+evidence to the AI, which explains it and only states what the evidence shows.
+
+Supported attachments
+  - ZIP of an extracted Electron/JavaScript app, or a ZIP holding app.asar -> rea analyze-javascript-application
+  - Windows .exe / .dll (PE)  -> inspect-pe-imports, inspect-pe-certificates, Go/Rust build info, analyze, search "<word from the question>"
+  - Linux ELF programs / .so  -> inspect-elf-notes, Go/Rust build info, analyze, search
+  - macOS Mach-O              -> Go/Rust build info, analyze, search
+  - Android .apk              -> inspect-android-package, search-android-classes "<word from the question>"
+  (The uploader renames unknown files to .bin; that is fine, the type is detected from the content.)
+
+Install on the server that runs `node server.mjs` (one time)
+  1) npm install -g rea-agents        # Node 22.23+ ; on Linux also a procps-compatible `ps`
+  2) rea --help                       # check it runs
+  3) For deep native analysis (function overview, search, decompile) install ONE engine and check it:
+       Ghidra (free): needs Java 21 (Temurin) + a Ghidra release unpacked on the server -> see docs "installation.md#ghidra" in the REA repo
+       then:  rea doctor --provider ghidra --json
+       Optional: REA_PROVIDER=ghidra   (pick the engine; default lets REA choose)
+     Without an engine the file-format checks (PE imports/certificates, ELF notes, APK manifest/classes, JS apps) still work;
+     the AI tells the user honestly that deep analysis was not available.
+
+CLAUDE-CODE-STYLE AGENT (reaAgent.mjs v2) - how REA now works when a request comes in
+  1) PLAN     it first writes a short to-do list (3-6 steps) for the question, shown live in the chat.
+  2) ACT      it calls REA's tools, up to 3 independent lookups at once, and explains each move in one line.
+  3) ADAPT    a failed call is read and fixed (not blindly retried); an identical call is never run twice; after 3 failures in a row it is
+              told to change approach, after 5 it stops and reports what it has. Old tool results are shortened so long jobs do not overflow.
+  4) VERIFY   before answering, a reviewer pass checks every claim against the raw evidence and removes what the tools did not show.
+  5) REPORT   the answer leads with the direct answer, then What I did / What I found [#n evidence numbers] / How it works / Could not
+              determine / next things it can dig into.
+  Live progress: the server sends {step:{...}} events over the chat stream (non-streaming clients just wait for the answer);
+  the chat shows Plan + Working lines (src/lib/reaTrail.js) until the answer text starts.
+  Tests: node --test tests/rea.test.mjs tests/reaAgent.e2e.test.mjs   (the e2e test uses a fake `rea mcp`, no real REA needed)
+
+INVESTIGATION MODE (reaAgent.mjs) - the full REA toolkit
+  The AI does not just get one report: it calls REA's own tools through MCP (`rea mcp`) in a loop - open the binary, search strings,
+  list/decompile functions, trace call paths, compare, extract - up to 14 tool calls (REA_AGENT_STEPS), then answers from the evidence. If the loop cannot start,
+  the fixed one-shot analysis below is used instead.
+  More file types: WebAssembly, SQLite, packet captures (pcap), GGUF models, Godot packs, Dex, Java classes, and other raw binaries/firmware.
+  Safety: only analysis tools are offered; anything that runs/launches/attaches/captures/fetches URLs/installs/serves is refused by name
+  (capture_*, launch*, frida, adb, gdb, browser, web_*, process, serve, install ...). Every path the AI passes is forced inside a
+  throw-away folder; URLs refused; private HOME for REA; 4-minute budget; the REA process is killed at the end. Files are never executed.
+  Test: node --test tests/rea.test.mjs
+  Env: REA_AGENT=0 (loop off), REA_AGENT_STEPS (14), REA_AGENT_BUDGET_MS (240000), REA_AGENT_CALL_MS (180000)
+
+Optional env vars: REA_BIN (path to rea, default "rea"), REA_PROVIDER, REA_TIMEOUT_MS (120000), REA_NATIVE_TIMEOUT_MS (240000),
+REA_MAX_CHARS (30000), REA_ENABLED=0 (turn off)
+
+Rules in server.mjs (search for "REA reverse engineering"): Premium/admin only, 5 analyses/day for premium (reaLimit), file under 60 MB,
+ZIP unpacking blocks "../" paths and caps files/size. Free users get a polite "Premium feature" answer.
+
+Server tips: Ghidra needs about 2 GB of free RAM per analysis. On a small free host, keep REA_ENABLED=0 or admin-only.
+Deliberately NOT exposed on a public server: running programs, Frida, adb/device control, live browser/network capture.
+If you want those for yourself, use REA on your own computer (npx rea-agents setup) - not through the public chat.
+
+DEV TOOLS > REVERSE ENGINEER (Xyron Brain -> Dev Tools)
+  Upload a file (ZIP / .apk / .exe / .dll / .asar, up to 10 MB) or paste a PUBLIC GitHub repo (owner/name or URL, up to 60 MB).
+  Server route: POST /api/rea/analyze (server.mjs, "Dev Tools > Reverse Engineer"). Same rules as chat: Premium/admin only, 5 per day, static analysis only.
+  Repo addresses are rebuilt from owner/name and fetched only from codeload.github.com. Progress streams live to the page.
+
+GITHUB LINKS (githubFetch.mjs)
+  Chat: "reverse engineer https://github.com/owner/repo" (or a /tree/ folder, /blob/ file, raw file, release download like .apk/.exe, or /archive/ link).
+  Dev Tools > Reverse Engineer > "GitHub link" accepts the same links, or just owner/name.
+  The server downloads it (public GitHub only, 60 MB cap, redirects may only stay on GitHub download hosts), then runs REA on it.
+  A single plain-text file (e.g. a .js or .py file) is simply read by the AI. Private repos: download the ZIP and upload it.
+  Test: node --test tests/github.test.mjs
+
+RENDER INSTALL (fix for "ENOENT mkdir /usr/lib/node_modules/rea-agents")
+  Do NOT run "npm install -g rea-agents" on Render: the system folders are read-only.
+  rea-agents is now an optionalDependencies entry in package.json, so the normal build installs it into node_modules
+  (and a failed install can never break the build). The server finds it at node_modules/.bin/rea by itself.
+  Build command:  npm install --include=dev && npm run build        Start command:  npm start
+  Environment:    NODE_VERSION=22   (REA needs Node 22.23 or newer)
